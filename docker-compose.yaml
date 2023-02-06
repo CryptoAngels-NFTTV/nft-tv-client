@@ -1,0 +1,6 @@
+version: '3'
+services:
+  nft-tv-client:
+    image: nft-tv-client:latest
+    ports:
+      - 9080:80
