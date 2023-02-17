@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react'
+import { useGLTF } from '@react-three/drei'
 import Nft from './Nft.jsx'
 
 
@@ -10,28 +11,28 @@ export default function Tv() {
 
     const getNfts = async () => {
 
-        // const nftsMetada = await fetch('http://ec2-54-175-171-160.compute-1.amazonaws.com:8043/api/nftmetada')
         const nftsMetada = await fetch('https://api.dawn.watch/api/nftmetada')
         const metadata = await nftsMetada.json()
+
         for (let i = 0; i < metadata.nftMetadata.length; i++) {
             const nftInfo = await JSON.parse(metadata.nftMetadata[i].metadata[0])
             const trueMetadata = await JSON.parse(nftInfo.metadata)
-            console.log(trueMetadata)
-            console.log(metadata.nftMetadata[i].qrCode.data)
             if (trueMetadata != null) {
                 const image = fixUrl(trueMetadata.image)
+        
+
                 nfts.push({
                     qrCode: metadata.nftMetadata[i].qrCode.data,
                     name: trueMetadata.name,
                     image: image,
-                    description: trueMetadata.description
+                    description: trueMetadata.description,
+                    owner: nftInfo.owner_of
                 })
             }
         }
     }
 
     const fixUrl = url => {
-        console.log(url)
         if (url.startsWith('ipfs://ipfs')) {
             return 'https://ipfs.io/ipfs/' + url.split('ipfs://ipfs').slice(-1)
         } else if (url.startsWith('ipfs')) {
@@ -43,7 +44,8 @@ export default function Tv() {
         } else if (url.startsWith('ar')) {
             return 'https://arweave.net/' + url.split('ar://').slice(-1) + '?format-json'
         } else {
-            return url + '?format-json'
+            // return url + '?format-json'
+            return url
         }
     }
 
