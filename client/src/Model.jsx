@@ -18,7 +18,7 @@ function NftImage({ nft }) {
     const material = useRef();
 
     useEffect(() => {
-        if(nft.image === null){
+        if(!nft || nft.image === null){
             setTexture(unknownImage);
         } else {
             const textureLoader = new THREE.TextureLoader();
@@ -59,7 +59,7 @@ function CustomTexts({ nft, width, height }) {
             outlineColor={'#DAB8A8'}
             font={'/fonts/ProximaNovaBold.woff'}
         >
-            NFT : {nft.name}
+            NFT : {nft ? nft.name : ''}
         </Text>
         <Text
             maxWidth={1.5}
@@ -72,7 +72,7 @@ function CustomTexts({ nft, width, height }) {
             outlineColor={'#DAB8A8'}
             font={'/fonts/ProximaNovaBold.woff'}
         >
-            Description : {nft.description}
+            Description : {nft ? nft.description : ''}
         </Text>
     </>
 }
@@ -106,7 +106,9 @@ export function Model({ nfts }) {
 
     useEffect(() => {
 
-        generateQR(nfts[index].qrCode)
+        if (nfts[index]) {
+            generateQR(nfts[index].qrCode) 
+        } 
 
         intervalId = setInterval(() => {
             setCounter((prevCounter) => prevCounter - 1);

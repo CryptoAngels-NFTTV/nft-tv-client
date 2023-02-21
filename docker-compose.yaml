@@ -1,0 +1,15 @@
+version: '3'
+services:
+  nft-client-proxy-server:
+    image: nft-client-proxy-server:latest
+    ports:
+      - 3000:3000
+
+  nft-tv-client:
+    depends_on:
+      - nft-client-proxy-server
+
+    image: nft-tv-client:latest
+    ports:
+      - 9080:80
+  

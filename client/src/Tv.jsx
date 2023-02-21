@@ -1,20 +1,14 @@
 import { useEffect, useState, useRef } from 'react'
-import { useGLTF } from '@react-three/drei'
 import Nft from './Nft.jsx'
 
-
 export default function Tv() {
-
     const [nfts] = useState([])
     const [isNetflixVisible, setIsNetflixVisible] = useState(true)
     const netflix = useRef(null)
 
     const getNfts = async () => {
-
         const nftsMetada = await fetch('https://api.dawn.watch/api/nftmetada')
         const metadata = await nftsMetada.json()
-        
-
         // for (let i = 0; i < metadata.nftMetadata.length; i++) {
         for (let i = 0; i < 100; i++) {
             const nftInfo = await JSON.parse(metadata.nftMetadata[i].info)
@@ -22,7 +16,6 @@ export default function Tv() {
 
             if (trueMetadata != null && trueMetadata.image) {
                 const image = fixUrl(trueMetadata.image)
-
                 nfts.push({
                     qrCode: metadata.nftMetadata[i].qrCode.data,
                     name: trueMetadata.name,
@@ -33,12 +26,13 @@ export default function Tv() {
             }
         }
 
-        for(let i = 0; i < nfts.length; i++){
-            try{
+        for (let i = 0; i < nfts.length; i++) {
+            try {
+                console.log(nfts[i].image)
                 const response = await fetch(`http://localhost:3000/image?url=${nfts[i].image}`);
                 const data = await response.arrayBuffer();
                 nfts[i].image = data;
-            } catch(error) {
+            } catch (error) {
                 nfts[i].image = null;
             }
         }

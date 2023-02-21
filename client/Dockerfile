@@ -2,6 +2,7 @@
 FROM node:19.6.0 as build
 RUN mkdir /srv/build/
 ADD src /srv/build/src/
+ADD public /srv/build/public/
 COPY package*.json /srv/build/
 COPY vite.config.js /srv/build/
 COPY nginx /srv/build/nginx/

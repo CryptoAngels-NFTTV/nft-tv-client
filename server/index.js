@@ -1,8 +1,14 @@
 const express = require('express');
 const axios = require('axios');
+const cors = require('cors')
 const app = express();
 
-app.get('/image', async (req, res) => {
+var corsOptions = {
+    origin: '*',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  }
+  
+app.get('/image', cors(corsOptions), async (req, res) => {
     try {
         const { url } = req.query;
         const response = await axios.get( url, {
@@ -10,7 +16,7 @@ app.get('/image', async (req, res) => {
         });
         res.setHeader('Content-Type', response.headers['content-type']);
         res.setHeader('Content-Length', response.headers['content-length']);
-        res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+        res.setHeader('Access-Control-Allow-Origin', '*');
         res.send(response.data);
     } catch (error) {
         console.log(error);
@@ -18,4 +24,6 @@ app.get('/image', async (req, res) => {
     }
 });
 
-app.listen(3000);
+app.listen(3000, function () {
+    console.log('CORS-enabled web server listening on port 3000')
+});
