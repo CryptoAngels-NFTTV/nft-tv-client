@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react'
+import * as qrcode from "qrcode"; 
 import Nft from './Nft.jsx'
 
 export default function Tv() {
@@ -9,7 +10,7 @@ export default function Tv() {
     const getNfts = async () => {
         const nftsMetada = await fetch('https://api.dawn.watch/api/nftmetada')
         const metadata = await nftsMetada.json()
-        // for (let i = 0; i < metadata.nftMetadata.length; i++) {
+        
         for (let i = 0; i < 100; i++) {
             const nftInfo = await JSON.parse(metadata.nftMetadata[i].info)
             const trueMetadata = await JSON.parse(nftInfo.metadata)
@@ -26,9 +27,22 @@ export default function Tv() {
             }
         }
 
-        for (let i = 0; i < nfts.length; i++) {
-            try {
-                console.log(nfts[i].image)
+        /**
+         * Creating another loop in order to give the props to children, then make update to it with the "awaits"
+         * So we don't have to wait all the fetchs
+         */
+        for(let i = 0; i < nfts.length; i++){
+
+            /**
+             * Handle QrCode in order to transform text to image
+             */
+            const image = await qrcode.toDataURL(nfts[i].qrCode);
+            nfts[i].qrCode = image;
+
+            /**
+             * Handle NFT's images
+             */
+            try{
                 const response = await fetch(`http://localhost:3000/image?url=${nfts[i].image}`);
                 const data = await response.arrayBuffer();
                 nfts[i].image = data;
@@ -50,7 +64,6 @@ export default function Tv() {
         } else if (url.startsWith('ar')) {
             return 'https://arweave.net/' + url.split('ar://').slice(-1) + '?format-json'
         } else {
-            // return url + '?format-json'
             return url
         }
     }

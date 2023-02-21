@@ -1,17 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { useCursor, Text, useTexture } from "@react-three/drei";
-import * as qrcode from "qrcode";
 import gsap from "gsap";
 import * as THREE from 'three'
-import { useLoader, useThree, } from "@react-three/fiber";
+import { useThree, } from "@react-three/fiber";
 
 import Qrcode from "./Qrcode.jsx";
 
 
 function NftImage({ nft }) {
-    // const texture = useLoader(THREE.TextureLoader, `http://localhost:3000/image?url=${nft.image}`);
-    // const texture = useLoader(THREE.TextureLoader, nft.image);
-    // const texture = useLoader(THREE.TextureLoader, `http://localhost:3000/image?url=https://moonboxes.io/api/nft/images/ra8bits-300/character-10713.png`);
+
     const [texture, setTexture] = useState(null);
     const [map, setMap] = useState(texture);
     const unknownImage = useTexture('/unknown.png');
@@ -61,26 +58,28 @@ function CustomTexts({ nft, width, height }) {
         >
             NFT : {nft ? nft.name : ''}
         </Text>
-        <Text
-            maxWidth={1.5}
-            anchorX="center"
-            anchorY="center"
-            textAlign="center"
-            position={[THREE.MathUtils.clamp(width / height * 2, 0.5, 3), -1.2, 0]}
-            fontSize={0.1}
-            outlineWidth={0.005}
-            outlineColor={'#DAB8A8'}
-            font={'/fonts/ProximaNovaBold.woff'}
-        >
-            Description : {nft ? nft.description : ''}
-        </Text>
+        {
+            nft.description ? <Text
+                    maxWidth={1.5}
+                    anchorX="center"
+                    anchorY="center"
+                    textAlign="center"
+                    position={[THREE.MathUtils.clamp(width / height * 2, 0.5, 3), -1.2, 0]}
+                    fontSize={0.1}
+                    outlineWidth={0.005}
+                    outlineColor={'#DAB8A8'}
+                    font={'/fonts/ProximaNovaBold.woff'}
+                >
+                    Description : {nft.description}
+                </Text>
+            :
+            null
+        }
     </>
 }
 
 export function Model({ nfts }) {
 
-    // State for qrCode Image
-    const [qrcodeImage, setQrcodeImage] = useState();
     // state for hovering the NFT card
     const [hovered, setHovered] = useState();
     // index of the nft
@@ -99,16 +98,8 @@ export function Model({ nfts }) {
 
     const nftCard = useRef();
 
-    const generateQR = async text => {
-        const image = await qrcode.toDataURL(text);
-        setQrcodeImage(image);
-    }
-
     useEffect(() => {
 
-        if (nfts[index]) {
-            generateQR(nfts[index].qrCode) 
-        } 
 
         intervalId = setInterval(() => {
             setCounter((prevCounter) => prevCounter - 1);
@@ -135,8 +126,6 @@ export function Model({ nfts }) {
                 setIndex(index + 1);
             else
                 setIndex(0);
-
-            generateQR(nfts[index].qrCode)
 
             gsap.to(nftCard.current.rotation, {
                 y: nftCard.current.rotation.y - Math.PI * 2,
@@ -166,7 +155,8 @@ export function Model({ nfts }) {
                 <NftImage nft={nfts[index]} />
 
             </mesh>
-            <Qrcode qrcodeImage={qrcodeImage} width={width} height={height} />
+
+            <Qrcode qrcodeImage={nfts[index].qrCode} width={width} height={height} />
 
             <CustomTexts nft={nfts[index]} width={width} height={height} />
         </>
