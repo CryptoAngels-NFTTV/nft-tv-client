@@ -13,13 +13,15 @@ export default function Tv() {
 
         const nftsMetada = await fetch('https://api.dawn.watch/api/nftmetada')
         const metadata = await nftsMetada.json()
-
-        for (let i = 0; i < metadata.nftMetadata.length; i++) {
-            const nftInfo = await JSON.parse(metadata.nftMetadata[i].metadata[0])
-            const trueMetadata = await JSON.parse(nftInfo.metadata)
-            if (trueMetadata != null) {
-                const image = fixUrl(trueMetadata.image)
         
+
+        // for (let i = 0; i < metadata.nftMetadata.length; i++) {
+        for (let i = 0; i < 100; i++) {
+            const nftInfo = await JSON.parse(metadata.nftMetadata[i].info)
+            const trueMetadata = await JSON.parse(nftInfo.metadata)
+
+            if (trueMetadata != null && trueMetadata.image) {
+                const image = fixUrl(trueMetadata.image)
 
                 nfts.push({
                     qrCode: metadata.nftMetadata[i].qrCode.data,
@@ -28,6 +30,16 @@ export default function Tv() {
                     description: trueMetadata.description,
                     owner: nftInfo.owner_of
                 })
+            }
+        }
+
+        for(let i = 0; i < nfts.length; i++){
+            try{
+                const response = await fetch(`http://localhost:3000/image?url=${nfts[i].image}`);
+                const data = await response.arrayBuffer();
+                nfts[i].image = data;
+            } catch(error) {
+                nfts[i].image = null;
             }
         }
     }
@@ -50,14 +62,18 @@ export default function Tv() {
     }
 
     useEffect(() => {
+
         setTimeout(() => {
             if (isNetflixVisible)
                 netflix.current.className = 'netflix-body fade-out'
         }, 4000)
+
         setTimeout(() => {
             setIsNetflixVisible(false)
         }, 5500)
+
         getNfts()
+
     }, [])
 
     return <>

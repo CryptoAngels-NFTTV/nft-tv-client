@@ -1,44 +1,59 @@
 import { useEffect, useRef, useState } from "react";
-import { useCursor, Text } from "@react-three/drei";
+import { useCursor, Text, useTexture } from "@react-three/drei";
 import * as qrcode from "qrcode";
 import gsap from "gsap";
 import * as THREE from 'three'
-import { useLoader, useThree,  } from "@react-three/fiber";
+import { useLoader, useThree, } from "@react-three/fiber";
 
 import Qrcode from "./Qrcode.jsx";
 
 
 function NftImage({ nft }) {
-    const texture = useLoader(THREE.TextureLoader, `http://localhost:3000/image?url=${nft.image}`);
-
+    // const texture = useLoader(THREE.TextureLoader, `http://localhost:3000/image?url=${nft.image}`);
+    // const texture = useLoader(THREE.TextureLoader, nft.image);
+    // const texture = useLoader(THREE.TextureLoader, `http://localhost:3000/image?url=https://moonboxes.io/api/nft/images/ra8bits-300/character-10713.png`);
+    const [texture, setTexture] = useState(null);
+    const [map, setMap] = useState(texture);
+    const unknownImage = useTexture('/unknown.png');
     const material = useRef();
-    
-    const map = texture;
 
     useEffect(() => {
-        gsap.to(material.current, {
-            map: map,
-            delay: 0.5,
-            duration: 0,
-        })
+        if(nft.image === null){
+            setTexture(unknownImage);
+        } else {
+            const textureLoader = new THREE.TextureLoader();
+            textureLoader.load(URL.createObjectURL(new Blob([nft.image])), setTexture);
+        }
+        
     }, [nft])
+
+    useEffect(() => {
+        if (texture) {
+
+            texture.encoding = THREE.sRGBEncoding;
+            setTimeout(() => {
+                setMap(texture)
+            }, 500)
+
+        }
+    }, [texture])
 
     return <>
         <mesh position-z={0.026} scale={0.98} >
             <planeGeometry args={[3, 3, 1]} />
-            <meshStandardMaterial ref={material} map={map} />
+            {map && <meshStandardMaterial ref={material} map={map} />}
         </mesh>
     </>
 }
 
-function CustomTexts({ nft, width, height }){
+function CustomTexts({ nft, width, height }) {
     return <>
-        <Text 
-            maxWidth={1.5} 
+        <Text
+            maxWidth={1.5}
             anchorX="center"
             anchorY="center"
             textAlign="center"
-            position={[THREE.MathUtils.clamp(width/height * 2, 0.5, 3), -1, 0]}
+            position={[THREE.MathUtils.clamp(width / height * 2, 0.5, 3), -1, 0]}
             fontSize={0.1}
             outlineWidth={0.005}
             outlineColor={'#DAB8A8'}
@@ -46,13 +61,13 @@ function CustomTexts({ nft, width, height }){
         >
             NFT : {nft.name}
         </Text>
-        <Text 
+        <Text
             maxWidth={1.5}
             anchorX="center"
             anchorY="center"
             textAlign="center"
-            position={[THREE.MathUtils.clamp(width/height * 2, 0.5, 3), -1.2, 0]}
-            fontSize={0.1} 
+            position={[THREE.MathUtils.clamp(width / height * 2, 0.5, 3), -1.2, 0]}
+            fontSize={0.1}
             outlineWidth={0.005}
             outlineColor={'#DAB8A8'}
             font={'/fonts/ProximaNovaBold.woff'}
@@ -133,17 +148,6 @@ export function Model({ nfts }) {
 
     return (
         <>
-
-            <Text
-                maxWidth={3} 
-                position={[0, 2, 0]}
-                fontSize={0.3} 
-                outlineWidth={0.01}
-                outlineColor={'#DAB8A8'}
-                font={'/fonts/ProximaNovaBold.woff'}
-            >
-                Dawn Watch TV
-            </Text>
             <mesh
                 ref={nftCard}
                 onPointerOver={() => setHovered(true)}
@@ -162,7 +166,7 @@ export function Model({ nfts }) {
             </mesh>
             <Qrcode qrcodeImage={qrcodeImage} width={width} height={height} />
 
-            <CustomTexts nft={nfts[index]} width={width} height={height}/>
+            <CustomTexts nft={nfts[index]} width={width} height={height} />
         </>
     );
 }
