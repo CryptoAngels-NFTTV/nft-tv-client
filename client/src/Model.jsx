@@ -156,7 +156,7 @@ export function Model({ nfts }) {
 
             </mesh>
 
-            <Qrcode qrcodeImage={nfts[index].qrCode} width={width} height={height} />
+            <Qrcode qrcodeImage={nfts[index] ? nfts[index].qrCode : ''} width={width} height={height} />
 
             <CustomTexts nft={nfts[index]} width={width} height={height} />
         </>
