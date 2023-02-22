@@ -24,6 +24,11 @@ app.get('/image', cors(corsOptions), async (req, res) => {
     }
 });
 
+app.get('/status',(req, res) => {
+    res.send("Proxy server is up")
+});
+
+
 app.listen(3000, function () {
     console.log('CORS-enabled web server listening on port 3000')
 });
