@@ -43,7 +43,7 @@ export default function Tv() {
              * Handle NFT's images
              */
             try{
-                const response = await fetch(`http://localhost:3000/image?url=${nfts[i].image}`);
+                const response = await fetch(`https://www.dawn.watch:444/image?url=${nfts[i].image}`);
                 const data = await response.arrayBuffer();
                 nfts[i].image = data;
             } catch (error) {
