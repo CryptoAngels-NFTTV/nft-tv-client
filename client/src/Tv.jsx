@@ -11,7 +11,7 @@ export default function Tv() {
         const nftsMetada = await fetch('https://api.dawn.watch/api/nftmetada')
         const metadata = await nftsMetada.json()
         
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < metadata.nftMetadata.length; i++) {
             const nftInfo = await JSON.parse(metadata.nftMetadata[i].info)
             const trueMetadata = await JSON.parse(nftInfo.metadata)
 

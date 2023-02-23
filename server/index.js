@@ -6,12 +6,12 @@ const app = express();
 var corsOptions = {
     origin: '*',
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-  }
-  
+}
+
 app.get('/image', cors(corsOptions), async (req, res) => {
     try {
         const { url } = req.query;
-        const response = await axios.get( url, {
+        const response = await axios.get(url, {
             responseType: 'arraybuffer',
         });
         res.setHeader('Content-Type', response.headers['content-type']);
@@ -24,7 +24,7 @@ app.get('/image', cors(corsOptions), async (req, res) => {
     }
 });
 
-app.get('/status',(req, res) => {
+app.get('/status', (req, res) => {
     res.send("Proxy server is up")
 });
 

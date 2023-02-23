@@ -9,9 +9,9 @@ import Qrcode from "./Qrcode.jsx";
 
 function NftImage({ nft }) {
 
+    const unknownImage = useTexture('/unknown.png');
     const [texture, setTexture] = useState(null);
     const [map, setMap] = useState(texture);
-    const unknownImage = useTexture('/unknown.png');
     const material = useRef();
 
     useEffect(() => {
@@ -19,7 +19,10 @@ function NftImage({ nft }) {
             setTexture(unknownImage);
         } else {
             const textureLoader = new THREE.TextureLoader();
-            textureLoader.load(URL.createObjectURL(new Blob([nft.image])), setTexture);
+            textureLoader.load(URL.createObjectURL(new Blob([nft.image])), (texture) => {
+                texture.encoding = THREE.sRGBEncoding;
+                setTexture(texture);
+            });
         }
         
     }, [nft])
