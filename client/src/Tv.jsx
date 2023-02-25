@@ -8,11 +8,12 @@ export default function Tv() {
     const netflix = useRef(null)
 
     const getNfts = async () => {
-        const nftsMetada = await fetch('https://api.dawn.watch/api/nftmetada')
+        // const nftsMetada = await fetch('https://api.dawn.watch/api/nftmetada')
+        const nftsMetada = await fetch('https://api.dawn.watch/api/nftmetada/filter?page=1&size=10')
         const metadata = await nftsMetada.json()
         
-        for (let i = 0; i < metadata.nftMetadata.length; i++) {
-            const nftInfo = await JSON.parse(metadata.nftMetadata[i].info)
+        for (let i = 0; i < metadata.content.length; i++) {
+            const nftInfo = await JSON.parse(metadata.content[i].info)
             const trueMetadata = await JSON.parse(nftInfo.metadata)
 
             if (trueMetadata != null && trueMetadata.image) {
@@ -20,8 +21,10 @@ export default function Tv() {
                 let extension = image.split('.').pop();
                 if(extension.includes("gif"))
                     extension = "gif"
+                else if(extension.includes("ipfs"))
+                    extension = "jpg"
                 nfts.push({
-                    qrCode: metadata.nftMetadata[i].qrCode.data,
+                    qrCode: metadata.content[i].qrCode.data,
                     name: trueMetadata.name,
                     image: image,
                     extension: extension,
@@ -46,8 +49,11 @@ export default function Tv() {
             /**
              * Handle NFT's images
              */
+            //added a timeout 
+            const controller = new AbortController()
+            const timeoutId = setTimeout(() => controller.abort(), 10000)
             try{
-                const response = await fetch(`https://www.dawn.watch:444/image?url=${nfts[i].image}`);
+                const response = await fetch(`https://www.dawn.watch:444/image?url=${nfts[i].image}`, { signal: controller.signal });
                 const data = await response.arrayBuffer();
                 nfts[i].image = data;
             } catch (error) {
