@@ -15,6 +15,7 @@
     "@react-three/drei": "^9.32.3",
     "@react-three/fiber": "^8.8.7",
     "@react-three/postprocessing": "^2.7.0",
+    "gif.js": "^0.2.0",
     "gsap": "^3.11.4",
     "leva": "^0.9.34",
     "qrcode": "^1.5.1",

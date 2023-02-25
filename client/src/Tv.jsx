@@ -17,10 +17,14 @@ export default function Tv() {
 
             if (trueMetadata != null && trueMetadata.image) {
                 const image = fixUrl(trueMetadata.image)
+                let extension = image.split('.').pop();
+                if(extension.includes("gif"))
+                    extension = "gif"
                 nfts.push({
                     qrCode: metadata.nftMetadata[i].qrCode.data,
                     name: trueMetadata.name,
                     image: image,
+                    extension: extension,
                     description: trueMetadata.description,
                     owner: nftInfo.owner_of
                 })

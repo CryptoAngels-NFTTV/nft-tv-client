@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useCursor, Text, useTexture } from "@react-three/drei";
 import gsap from "gsap";
 import * as THREE from 'three'
-import { useThree, } from "@react-three/fiber";
+import { useThree } from "@react-three/fiber";
 
 import Qrcode from "./Qrcode.jsx";
 
@@ -13,24 +13,58 @@ function NftImage({ nft }) {
     const [texture, setTexture] = useState(null);
     const [map, setMap] = useState(texture);
     const material = useRef();
+    const mesh = useRef();
 
     useEffect(() => {
-        if(!nft || nft.image === null){
+        if (!nft || nft.image === null) {
             setTexture(unknownImage);
         } else {
-            const textureLoader = new THREE.TextureLoader();
-            textureLoader.load(URL.createObjectURL(new Blob([nft.image])), (texture) => {
-                texture.encoding = THREE.sRGBEncoding;
-                setTexture(texture);
-            });
+            if (nft.extension != "mp4"){
+                
+                const textureLoader = new THREE.TextureLoader();
+
+                const file = new File([nft.image], `${nft.name}.${nft.extension}`, { type: `image/${nft.extension}` });
+                
+                const url = URL.createObjectURL(file);
+
+                textureLoader.load(url, (texture2D) => {
+                    texture2D.needsUpdate = true;
+                    texture2D.encoding = THREE.sRGBEncoding;
+                    setTexture(texture2D);
+                })
+                
+            }
+            else {
+                const video = {};
+                const videoTexture = {};
+
+                const file = new File([nft.image], `${nft.name}.${nft.extension}`, { type: `video/${nft.extension}` });
+
+                video[nft.name] = document.createElement("video");
+                video[nft.name].src = URL.createObjectURL(file);
+                video[nft.name].muted = true
+                video[nft.name].playInline = true
+                video[nft.name].autoPLay = true
+                video[nft.name].loop = true
+                video[nft.name].play()
+
+                videoTexture[nft.name] = new THREE.VideoTexture(video[nft.name])
+
+                // videoTexture[nft.name].flipY = true
+                videoTexture[nft.name].needsUpdate = true;
+                videoTexture[nft.name].minFilter = THREE.NearestFilter
+                videoTexture[nft.name].magFilter = THREE.NearestFilter
+                videoTexture[nft.name].generateMipmaps = false
+                videoTexture[nft.name].encoding = THREE.LinearEncoding
+
+                setTexture(videoTexture[nft.name]);
+            }
         }
-        
     }, [nft])
 
     useEffect(() => {
         if (texture) {
-
-            texture.encoding = THREE.sRGBEncoding;
+            texture.needsUpdate = true;
             setTimeout(() => {
                 setMap(texture)
             }, 500)
@@ -38,8 +72,15 @@ function NftImage({ nft }) {
         }
     }, [texture])
 
+    /**
+     * Handling material encoding for texture
+     */
+    useEffect(() => {
+            mesh.current.material.needsUpdate = true;
+    }, [map])
+
     return <>
-        <mesh position-z={0.026} scale={0.98} >
+        <mesh ref={mesh} position-z={0.026} scale={0.98} >
             <planeGeometry args={[3, 3, 1]} />
             {map && <meshStandardMaterial ref={material} map={map} />}
         </mesh>
@@ -63,20 +104,20 @@ function CustomTexts({ nft, width, height }) {
         </Text>
         {
             nft.description ? <Text
-                    maxWidth={1.5}
-                    anchorX="center"
-                    anchorY="center"
-                    textAlign="center"
-                    position={[THREE.MathUtils.clamp(width / height * 2, 0.5, 3), -1.2, 0]}
-                    fontSize={0.1}
-                    outlineWidth={0.005}
-                    outlineColor={'#DAB8A8'}
-                    font={'/fonts/ProximaNovaBold.woff'}
-                >
-                    Description : {nft.description}
-                </Text>
-            :
-            null
+                maxWidth={1.5}
+                anchorX="center"
+                anchorY="center"
+                textAlign="center"
+                position={[THREE.MathUtils.clamp(width / height * 2, 0.5, 3), -1.2, 0]}
+                fontSize={0.1}
+                outlineWidth={0.005}
+                outlineColor={'#DAB8A8'}
+                font={'/fonts/ProximaNovaBold.woff'}
+            >
+                Description : {nft.description}
+            </Text>
+                :
+                null
         }
     </>
 }
