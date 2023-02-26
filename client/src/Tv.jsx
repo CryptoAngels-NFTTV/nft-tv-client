@@ -8,32 +8,49 @@ export default function Tv() {
     const netflix = useRef(null)
 
     const getNfts = async () => {
-        // const nftsMetada = await fetch('https://api.dawn.watch/api/nftmetada')
+        // first call to get the infos from api (how many elements is there, how many pages is there)
         const nftsMetada = await fetch('https://api.dawn.watch/api/nftmetada/filter?page=1&size=10')
         const metadata = await nftsMetada.json()
-        
-        for (let i = 0; i < metadata.content.length; i++) {
-            const nftInfo = await JSON.parse(metadata.content[i].info)
-            const trueMetadata = await JSON.parse(nftInfo.metadata)
+        const totalElements = metadata.totalElements;
+        const totalPages = metadata.totalPages;
+        // initiate the first page and a size of 10 element by page
+        let pageIndex = 1;
+        let size = 10;
 
-            if (trueMetadata != null && trueMetadata.image) {
-                const image = fixUrl(trueMetadata.image)
-                let extension = image.split('.').pop();
-                if(extension.includes("gif"))
-                    extension = "gif"
-                else if(extension.includes("ipfs"))
-                    extension = "jpg"
-                nfts.push({
-                    qrCode: metadata.content[i].qrCode.data,
-                    name: trueMetadata.name,
-                    image: image,
-                    extension: extension,
-                    description: trueMetadata.description,
-                    owner: nftInfo.owner_of
-                })
+        // while we didn't get to the last page we inject nft in our nfts object
+        while(pageIndex <= totalPages){
+            // if we are in the last page we take only the size that is last we don't take 10 (for example if we have 41 elements, in the last page we take only a size of 1)
+            if(pageIndex === totalPages)
+                size =  totalElements % (size * (pageIndex - 1) ) ;
+
+            // injecting in the nfts object
+            const nftsMetada = await fetch(`https://api.dawn.watch/api/nftmetada/filter?page=${pageIndex}&size=${size}`);
+            const metadata = await nftsMetada.json()
+
+            for (let i = 0; i < metadata.content.length; i++) {
+                const nftInfo = await JSON.parse(metadata.content[i].info)
+                const trueMetadata = await JSON.parse(nftInfo.metadata)
+    
+                if (trueMetadata != null && trueMetadata.image) {
+                    const image = fixUrl(trueMetadata.image)
+                    let extension = image.split('.').pop();
+                    if(extension.includes("gif"))
+                        extension = "gif"
+                    else if(extension.includes("ipfs"))
+                        extension = "jpg"
+                    nfts.push({
+                        qrCode: metadata.content[i].qrCode.data,
+                        name: trueMetadata.name,
+                        image: image,
+                        extension: extension,
+                        description: trueMetadata.description,
+                        owner: nftInfo.owner_of
+                    })
+                }
             }
+            // incrementing the page index 
+            pageIndex++;
         }
-
         /**
          * Creating another loop in order to give the props to children, then make update to it with the "awaits"
          * So we don't have to wait all the fetchs

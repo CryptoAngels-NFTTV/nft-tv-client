@@ -18,8 +18,6 @@ export default function Nft({ nfts }) {
             <color args={["#000000"]} attach="background" />
             <Environment preset="city" />
 
-            <OrbitControls />
-
             <directionalLight position={[1, 2, 3]} intensity={0.5} />
 
             <Model nfts={nfts}/>
