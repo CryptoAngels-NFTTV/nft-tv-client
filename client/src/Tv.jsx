@@ -19,9 +19,20 @@ export default function Tv() {
 
         // while we didn't get to the last page we inject nft in our nfts object
         while(pageIndex <= totalPages){
-            // if we are in the last page we take only the size that is last we don't take 10 (for example if we have 41 elements, in the last page we take only a size of 1)
-            if(pageIndex === totalPages)
-                size =  totalElements % (size * (pageIndex - 1) ) ;
+            /**
+             * variables in order to handle calling proxyserver dynamicly
+             */
+            let firstIndex = size * (pageIndex - 1);
+            let lastIndex = size * pageIndex;
+
+            /**
+             *  if we are in the last page we take only the size that is last we don't take 10 (for example if we have 41 elements, in the last page we take only a size of 1)
+             * Fixing the lastIndex variable in order to take full length of elements
+             * */ 
+            if(pageIndex === totalPages){
+                lastIndex = totalElements;
+                size =  totalElements % (size * (pageIndex - 1) );
+            }
 
             // injecting in the nfts object
             const nftsMetada = await fetch(`https://api.dawn.watch/api/nftmetada/filter?page=${pageIndex}&size=${size}`);
@@ -48,34 +59,34 @@ export default function Tv() {
                     })
                 }
             }
+            /**
+             * Creating another loop in order to give the props to children, then make update to it with the "awaits"
+             * So we don't have to wait all the fetchs
+             */
+            
+            for(let i = firstIndex; i < lastIndex; i++){
+                /**
+                 * Handle QrCode in order to transform text to image
+                 */
+                const image = await qrcode.toDataURL(nfts[i].qrCode);
+                nfts[i].qrCode = image;
+    
+                /**
+                 * Handle NFT's images
+                 */
+                //added a timeout 
+                const controller = new AbortController()
+                const timeoutId = setTimeout(() => controller.abort(), 10000)
+                try{
+                    const response = await fetch(`https://www.dawn.watch:444/image?url=${nfts[i].image}`, { signal: controller.signal });
+                    const data = await response.arrayBuffer();
+                    nfts[i].image = data;
+                } catch (error) {
+                    nfts[i].image = null;
+                }
+            }
             // incrementing the page index 
             pageIndex++;
-        }
-        /**
-         * Creating another loop in order to give the props to children, then make update to it with the "awaits"
-         * So we don't have to wait all the fetchs
-         */
-        for(let i = 0; i < nfts.length; i++){
-
-            /**
-             * Handle QrCode in order to transform text to image
-             */
-            const image = await qrcode.toDataURL(nfts[i].qrCode);
-            nfts[i].qrCode = image;
-
-            /**
-             * Handle NFT's images
-             */
-            //added a timeout 
-            const controller = new AbortController()
-            const timeoutId = setTimeout(() => controller.abort(), 10000)
-            try{
-                const response = await fetch(`https://www.dawn.watch:444/image?url=${nfts[i].image}`, { signal: controller.signal });
-                const data = await response.arrayBuffer();
-                nfts[i].image = data;
-            } catch (error) {
-                nfts[i].image = null;
-            }
         }
     }
 
@@ -96,6 +107,7 @@ export default function Tv() {
     }
 
     useEffect(() => {
+        getNfts()
 
         setTimeout(() => {
             if (isNetflixVisible)
@@ -105,8 +117,6 @@ export default function Tv() {
         setTimeout(() => {
             setIsNetflixVisible(false)
         }, 5500)
-
-        getNfts()
 
     }, [])
 
@@ -118,7 +128,7 @@ export default function Tv() {
                 </h1>
             </div>
                 :
-                <Nft nfts={nfts} />
-        }
+                nfts.length > 0 ? <Nft nfts={nfts} /> : null
+            }
     </>
 }

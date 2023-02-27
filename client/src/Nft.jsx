@@ -1,7 +1,6 @@
 
-import { OrbitControls, Environment } from "@react-three/drei";
+import { Environment } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { useMemo, useState } from "react";
 import { Model } from "./Model.jsx";
 
 export default function Nft({ nfts }) {
