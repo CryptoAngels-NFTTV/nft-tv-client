@@ -1,11 +1,13 @@
 import { useEffect, useState, useRef } from 'react'
-import * as qrcode from "qrcode"; 
+import * as qrcode from "qrcode";
 import Nft from './Nft.jsx'
 
 export default function Tv() {
     const [nfts] = useState([])
     const [isNetflixVisible, setIsNetflixVisible] = useState(true)
     const netflix = useRef(null)
+
+    const nftsWrapper = useRef()
 
     const getNfts = async () => {
         // first call to get the infos from api (how many elements is there, how many pages is there)
@@ -18,7 +20,7 @@ export default function Tv() {
         let size = 10;
 
         // while we didn't get to the last page we inject nft in our nfts object
-        while(pageIndex <= totalPages){
+        while (pageIndex <= totalPages) {
             /**
              * variables in order to handle calling proxyserver dynamicly
              */
@@ -28,10 +30,10 @@ export default function Tv() {
             /**
              *  if we are in the last page we take only the size that is last we don't take 10 (for example if we have 41 elements, in the last page we take only a size of 1)
              * Fixing the lastIndex variable in order to take full length of elements
-             * */ 
-            if(pageIndex === totalPages){
+             * */
+            if (pageIndex === totalPages) {
                 lastIndex = totalElements;
-                size =  totalElements % (size * (pageIndex - 1) );
+                size = totalElements % (size * (pageIndex - 1));
             }
 
             // injecting in the nfts object
@@ -41,13 +43,13 @@ export default function Tv() {
             for (let i = 0; i < metadata.content.length; i++) {
                 const nftInfo = await JSON.parse(metadata.content[i].info)
                 const trueMetadata = await JSON.parse(nftInfo.metadata)
-    
+
                 if (trueMetadata != null && trueMetadata.image) {
                     const image = fixUrl(trueMetadata.image)
                     let extension = image.split('.').pop();
-                    if(extension.includes("gif"))
+                    if (extension.includes("gif"))
                         extension = "gif"
-                    else if(extension.includes("ipfs"))
+                    else if (extension.includes("ipfs"))
                         extension = "jpg"
                     nfts.push({
                         qrCode: metadata.content[i].qrCode.data,
@@ -63,21 +65,21 @@ export default function Tv() {
              * Creating another loop in order to give the props to children, then make update to it with the "awaits"
              * So we don't have to wait all the fetchs
              */
-            
-            for(let i = firstIndex; i < lastIndex; i++){
+
+            for (let i = firstIndex; i < lastIndex; i++) {
                 /**
                  * Handle QrCode in order to transform text to image
                  */
                 const image = await qrcode.toDataURL(nfts[i].qrCode);
                 nfts[i].qrCode = image;
-    
+
                 /**
                  * Handle NFT's images
                  */
                 //added a timeout 
                 const controller = new AbortController()
                 const timeoutId = setTimeout(() => controller.abort(), 10000)
-                try{
+                try {
                     const response = await fetch(`https://www.dawn.watch:444/image?url=${nfts[i].image}`, { signal: controller.signal });
                     const data = await response.arrayBuffer();
                     nfts[i].image = data;
@@ -121,14 +123,17 @@ export default function Tv() {
     }, [])
 
     return <>
-        {
-            isNetflixVisible ? <div ref={netflix} className='netflix-body fade-in'>
-                <h1 className='netflix-title'>
-                    NFTTv
-                </h1>
-            </div>
-                :
-                nfts.length > 0 ? <Nft nfts={nfts} /> : null
+        <div className="nfts" ref={nftsWrapper}>
+
+            {
+                isNetflixVisible ? <div ref={netflix} className='netflix-body fade-in'>
+                    <h1 className='netflix-title'>
+                        NFTTv
+                    </h1>
+                </div>
+                    :
+                    nfts.length > 0 ? <Nft nfts={nfts} wrapper={nftsWrapper} /> : null
             }
+        </div>
     </>
 }

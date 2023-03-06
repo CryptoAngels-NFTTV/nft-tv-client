@@ -2,7 +2,7 @@ import { useTexture, useCursor } from "@react-three/drei"
 import { useState } from "react"
 import * as THREE from 'three'
 
-export default function Qrcode({ qrcodeImage = "/unknown.png", width, height}) {
+export default function Qrcode({ qrcodeImage = "/assets/unknown.png", width, height}) {
 
     const [hovered, setHovered] = useState()
 
@@ -23,7 +23,8 @@ export default function Qrcode({ qrcodeImage = "/unknown.png", width, height}) {
             onPointerOut={() => setHovered(false)} 
             onClick={handleClick}
             position={[THREE.MathUtils.clamp(width/height * 2, 0.5, 3), 0.75, 0]}
-            scale={THREE.MathUtils.clamp(width/height, 0.5, 1.25)}
+            // scale={THREE.MathUtils.clamp(width/height, 0.5, 1.25)}
+            scale={THREE.MathUtils.clamp(width/height, 0.5, 1.5)}
         >
             <boxGeometry args={[1, 1, 0.05]} />
             <meshStandardMaterial

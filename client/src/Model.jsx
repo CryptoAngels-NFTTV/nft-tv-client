@@ -9,7 +9,7 @@ import Qrcode from "./Qrcode.jsx";
 
 function NftImage({ nft }) {
 
-    const unknownImage = useTexture('/unknown.png');
+    const unknownImage = useTexture('/assets/unknown.png');
     const [texture, setTexture] = useState(null);
     const [map, setMap] = useState(texture);
     const material = useRef();
@@ -122,7 +122,52 @@ function CustomTexts({ nft, width, height }) {
     </>
 }
 
-export function Model({ nfts }) {
+function FullScreen ({width, height, setHovered, wrapper}){
+    const [isFullScreen, setIsFullScreen] = useState(false);
+
+    const fullScreen = useTexture('/assets/full-screen.png');
+
+    const mesh = useRef();
+
+    const handleClick = () => {
+        if(isFullScreen){
+            wrapper.current.classList.remove('full-screen');
+            document.body.classList.remove('hide-scroll');
+            setIsFullScreen(!isFullScreen);
+        } else {
+            wrapper.current.classList.add('full-screen');
+            document.body.classList.add('hide-scroll');
+            setIsFullScreen(!isFullScreen);
+        }
+    }
+
+    const handleHover = () => {
+        setHovered(true)
+        const scale = 1.125;
+        mesh.current.scale.set(scale, scale, scale);
+    }
+    
+    const handleOut = () =>{
+        setHovered(false)
+        const scale = 1;
+        mesh.current.scale.set(scale, scale, scale);
+    }
+    return <>
+        <mesh
+            ref={mesh}
+            position={[THREE.MathUtils.clamp(width / height * 2.25, 0.5, 4), -2.5, 0]}
+            onPointerOver={handleHover}
+            onPointerOut={handleOut}
+            onClick={handleClick}
+        >
+            <planeGeometry args={[0.5, 0.5]} />
+            <meshBasicMaterial map={fullScreen} />
+
+        </mesh>
+    </>
+}
+
+export function Model({ nfts, wrapper }) {
 
     // state for hovering the NFT card
     const [hovered, setHovered] = useState();
@@ -188,8 +233,9 @@ export function Model({ nfts }) {
                 onPointerOver={() => setHovered(true)}
                 onPointerOut={() => setHovered(false)}
                 onClick={handleClick}
-                position={[0, -0.5, 0]}
-                scale={THREE.MathUtils.clamp(width / height, 0.5, 1.25)}
+                position={[-0.75, 0, 0]}
+                // scale={THREE.MathUtils.clamp(width / height, 0.5, 1.25)}
+                scale={THREE.MathUtils.clamp(width / height, 0.5, 1.5)}
             >
                 <boxGeometry args={[3, 3, 0.05]} />
                 <meshStandardMaterial
@@ -203,6 +249,7 @@ export function Model({ nfts }) {
             <Qrcode qrcodeImage={nfts[index] ? nfts[index].qrCode : ''} width={width} height={height} />
 
             <CustomTexts nft={nfts[index]} width={width} height={height} />
+            <FullScreen width={width} height={height} setHovered={setHovered} wrapper={wrapper} />
         </>
     );
 }
