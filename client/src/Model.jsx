@@ -144,18 +144,30 @@ function FullScreen ({width, height, setHovered, wrapper}){
     const handleHover = () => {
         setHovered(true)
         const scale = 1.125;
-        mesh.current.scale.set(scale, scale, scale);
+        gsap.to(mesh.current.scale, {
+            x: scale,
+            y: scale,
+            z: scale,
+            duration: 0.5,
+            ease: 'power3.Out'
+        })
     }
     
     const handleOut = () =>{
         setHovered(false)
         const scale = 1;
-        mesh.current.scale.set(scale, scale, scale);
+        gsap.to(mesh.current.scale, {
+            x: scale,
+            y: scale,
+            z: scale,
+            duration: 0.5,
+            ease: 'power3.Out'
+        })
     }
     return <>
         <mesh
             ref={mesh}
-            position={[THREE.MathUtils.clamp(width / height * 2.25, 0.5, 4), -2.5, 0]}
+            position={[THREE.MathUtils.clamp(width / height * 2.25, 0.5, 4), -2.25, 0]}
             onPointerOver={handleHover}
             onPointerOut={handleOut}
             onClick={handleClick}

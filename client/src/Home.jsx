@@ -1,6 +1,8 @@
 import Header from "./Header.jsx";
 import Hero from "./Hero.jsx";
 import Playlist from "./Playlist.jsx";
+import Earn from "./Earn.jsx";
+import Team from "./Team.jsx";
 
 export default function Home(){
     return <>
@@ -13,8 +15,10 @@ export default function Home(){
             <Playlist /> 
         </section>
 
-        <section>
+        <Earn />
 
+        <section>
+            <Team />
         </section>
         
         <section>
