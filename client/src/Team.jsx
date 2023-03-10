@@ -27,7 +27,7 @@ export default function Team() {
         {
             name: "Rafael Chiarinelli",
             linkedin: "https://www.linkedin.com/in/rafael-chiarinelli-1b8169142/",
-            function: "Devloper",
+            function: "Developer",
             image: "/assets/team/Rafa.png"
         },
         {

@@ -3,6 +3,7 @@ import Hero from "./Hero.jsx";
 import Playlist from "./Playlist.jsx";
 import Earn from "./Earn.jsx";
 import Team from "./Team.jsx";
+import Footer from "./Footer.jsx";
 
 export default function Home(){
     return <>
@@ -21,8 +22,7 @@ export default function Home(){
             <Team />
         </section>
         
-        <section>
-
-        </section>
+        <Footer />
+        
     </>
 }
