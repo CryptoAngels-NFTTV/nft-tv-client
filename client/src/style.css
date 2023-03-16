@@ -265,6 +265,8 @@ button.btn-black:hover{
     height: 100%;
     display: block;
     align-items: center;
+    justify-content: space-between;
+
 }
 
 .player{
@@ -353,9 +355,8 @@ button.btn-black:hover{
     .hero{
         display: flex;
         text-align: start;
-        width: 30%;
+        width: 25%;
         padding: 10em 0em;
-        padding-left: 5em;
     }
 
 }
