@@ -12,6 +12,7 @@
     "vite": "^4.0.4"
   },
   "dependencies": {
+    "@auth0/auth0-react": "^2.0.1",
     "@react-three/drei": "^9.32.3",
     "@react-three/fiber": "^8.8.7",
     "@react-three/postprocessing": "^2.7.0",
