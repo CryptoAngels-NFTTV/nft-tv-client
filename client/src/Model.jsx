@@ -93,8 +93,8 @@ function CustomTexts({ nft, width, height }) {
             maxWidth={2}
             anchorX="center"
             anchorY="center"
-            textAlign="center"
-            position={[THREE.MathUtils.clamp(width / height * 2, 0.5, 3), -1, 0]}
+            textAlign="start"
+            position={[THREE.MathUtils.clamp(width / height * 2, 0.5, 3), 0.75, 0]}
             fontSize={0.1}
             // outlineWidth={0.005}
             outlineColor={'#DAB8A8'}
@@ -107,9 +107,9 @@ function CustomTexts({ nft, width, height }) {
                 maxWidth={2}
                 anchorX="center"
                 anchorY="center"
-                textAlign="center"
+                textAlign="start"
                 lineHeight="1.5"
-                position={[THREE.MathUtils.clamp(width / height * 2, 0.5, 3), -1.2, 0]}
+                position={[THREE.MathUtils.clamp(width / height * 2, 0.5, 3), 0.55, 0]}
                 fontSize={0.1}
                 // outlineWidth={0.005}
                 outlineColor={'#DAB8A8'}

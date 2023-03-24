@@ -22,9 +22,9 @@ export default function Qrcode({ qrcodeImage = "/assets/unknown.png", width, hei
             onPointerOver={() => setHovered(true)} 
             onPointerOut={() => setHovered(false)} 
             onClick={handleClick}
-            position={[THREE.MathUtils.clamp(width/height * 2, 0.5, 3), 0.75, 0]}
+            position={[THREE.MathUtils.clamp(width/height * 2, 0.5, 3), -1, 0]}
             // scale={THREE.MathUtils.clamp(width/height, 0.5, 1.25)}
-            scale={THREE.MathUtils.clamp(width/height, 0.5, 1.5)}
+            scale={THREE.MathUtils.clamp(width/height, 0.5, 1.2)}
         >
             <boxGeometry args={[1, 1, 0.05]} />
             <meshStandardMaterial
