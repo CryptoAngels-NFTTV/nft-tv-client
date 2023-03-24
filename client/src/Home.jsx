@@ -1,9 +1,9 @@
-import Header from "./Header.jsx";
-import Hero from "./Hero.jsx";
-import Playlist from "./Playlist.jsx";
-import Earn from "./Earn.jsx";
-import Team from "./Team.jsx";
-import Footer from "./Footer.jsx";
+import Header from "./components/Header.jsx";
+import Hero from "./components/Hero.jsx";
+import Playlist from "./components/Playlist.jsx";
+import Earn from "./components/Earn.jsx";
+import Team from "./components/Team.jsx";
+import Footer from "./components/Footer.jsx";
 
 export default function Home(){
     return <>

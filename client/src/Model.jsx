@@ -90,13 +90,13 @@ function NftImage({ nft }) {
 function CustomTexts({ nft, width, height }) {
     return <>
         <Text
-            maxWidth={1.5}
+            maxWidth={2}
             anchorX="center"
             anchorY="center"
             textAlign="center"
             position={[THREE.MathUtils.clamp(width / height * 2, 0.5, 3), -1, 0]}
             fontSize={0.1}
-            outlineWidth={0.005}
+            // outlineWidth={0.005}
             outlineColor={'#DAB8A8'}
             font={'/fonts/ProximaNovaBold.woff'}
         >
@@ -104,13 +104,14 @@ function CustomTexts({ nft, width, height }) {
         </Text>
         {
             nft.description ? <Text
-                maxWidth={1.5}
+                maxWidth={2}
                 anchorX="center"
                 anchorY="center"
                 textAlign="center"
+                lineHeight="1.5"
                 position={[THREE.MathUtils.clamp(width / height * 2, 0.5, 3), -1.2, 0]}
                 fontSize={0.1}
-                outlineWidth={0.005}
+                // outlineWidth={0.005}
                 outlineColor={'#DAB8A8'}
                 font={'/fonts/ProximaNovaBold.woff'}
             >

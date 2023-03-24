@@ -1,7 +1,7 @@
 
 import { Environment } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { Model } from "./Model.jsx";
+import { Model } from "../Model.jsx";
 
 export default function Nft({ nfts, wrapper }) {
     return <>
