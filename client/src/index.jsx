@@ -22,7 +22,7 @@ root.render(
         authorizationParams={{
             redirect_uri: window.location.origin, 
             audience: "https://api.dawn.watch/api/actuator/health",
-            scope: "openid email profile",
+            scope: "openid%20profile%20email",
         }}
     >
 
