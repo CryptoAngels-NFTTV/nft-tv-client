@@ -19,29 +19,35 @@ export default function Header() {
             try {
                 const accessToken = await getAccessTokenSilently({
                     authorizationParams: {
-                        audience: `https://${domain}/api/v2/`,
-                        scope: "read:current_user",
+                        // audience: `https://${domain}/api/v2/`,
+                        audience: "https://api.dawn.watch/api/actuator/health",
+                        scope: "openid profile email",
                     },
                 });
+                console.log(accessToken)
+                // abdoujr123@gmail.com
+                // Test@132
 
-                const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user.sub}`;
+                // const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user.sub}`;
+                // const userDetailsByIdUrl = `https://api.dawn.watch/api/users/${user.sub}`;
 
-                const metadataResponse = await fetch(userDetailsByIdUrl, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
+                // const metadataResponse = await fetch(userDetailsByIdUrl, {
+                //     headers: {
+                //         Authorization: `Bearer ${accessToken}`,
+                //     },
+                // });
 
-                const { user_metadata } = await metadataResponse.json();
+                // const { user_metadata } = await metadataResponse.json();
 
-                setUserMetadata(user_metadata);
+                // setUserMetadata(user_metadata);
             } catch (e) {
+                console.log('error')
                 console.log(e.message);
             }
         };
 
         getUserMetadata();
-    }, [getAccessTokenSilently, user?.sub]);
+    }, []);
 
     const handleToggle = () => {
         setActive(!isActive);

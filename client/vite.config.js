@@ -1,11 +1,14 @@
 import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite'
+import mkcert from 'vite-plugin-mkcert'
 
 const isCodeSandbox = 'SANDBOX_URL' in process.env || 'CODESANDBOX_HOST' in process.env
 
 export default {
     plugins:
         [
-            react()
+            react(),
+            mkcert()
         ],
     root: 'src/',
     publicDir: "../public/",
@@ -16,7 +19,8 @@ export default {
         host: '0.0.0.0',
         watch: {
             usePolling: true
-        }
+        },
+        https: true
     },
     build:
     {
