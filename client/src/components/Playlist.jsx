@@ -23,15 +23,15 @@ export default function Playlist() {
             </div>
             <div className="playlist-bloc" >
                 <h2>Roadmap</h2>
-                <p>Consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam.</p>
+                <p>We are building a b2b and b2c product for NFT or non-NFT holders to discover and showcase NFTs. Users will be able to search, discover, build NFT playlists or watch playlists of their gaming teams or fav art gallery.</p>
                 <button className="playlist-btn btn-black">
                     Learn more
                 </button>
             </div>
             <div className="playlist-bloc" >
                 <h2>CryptoAngels Holders - Benefits</h2>
-                <p>Eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora.</p>
-                <button className="playlist-btn btn-black">
+                <p><strong>CryptoAngels</strong> Holders will earn higher benefits on a View To Earn model as per non-holders.</p>
+                <button className="playlist-btn playlist-btn-CA btn-black">
                     Learn more
                 </button>
             </div>

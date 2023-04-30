@@ -14,6 +14,7 @@
 }
 
 .playlist-bloc{
+    position: relative;
     padding: .5rem;
 }
 
@@ -31,10 +32,14 @@
 }
 
 .playlist-btn{
+    position: relative;
+    transform: translateY(-50%);
+    bottom: 0;
     font-size: 1.25rem;
     width: 10em;
     height: 2em;
     padding: .25em;
+    margin: 2em 0;
 }
 
 @media screen and (min-width: 1068px) {
@@ -46,8 +51,12 @@
     }
     .playlist-bloc{
         padding: 2.5em;
+        min-height: 340px;
     }
     .playlist-bloc h2{
         font-size: 2.25rem;
+    }
+    .playlist-btn{
+        position: absolute;
     }
 }

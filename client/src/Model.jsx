@@ -93,9 +93,9 @@ function CustomTexts({ nft, width, height }) {
     return <>
         <Text
             maxWidth={2}
+            
             anchorX="center"
             anchorY="center"
-            textAlign="center"
             position={[THREE.MathUtils.clamp(width / height * 2, 0.5, 3), 0.75, 0]}
             fontSize={0.1}
             outlineColor={'#DAB8A8'}
@@ -131,7 +131,7 @@ function FullScreen ({width, height, setHovered, wrapper}){
         side: THREE.DoubleSide,
         transparent: true,
         depthWrite: false,
-        
+
         vertexShader: vertexShader,
         fragmentShader: fragmentShader,
     })
