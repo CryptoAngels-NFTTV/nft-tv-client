@@ -43,7 +43,8 @@ function NftImage({ nft }) {
                 const file = new File([nft.image], `${nft.name}.${nft.extension}`, { type: `video/${nft.extension}` });
 
                 video[nft.name] = document.createElement("video");
-                video[nft.name].src = URL.createObjectURL(file);
+                // video[nft.name].src = URL.createObjectURL(file);
+                video[nft.name].src = nft.image;
                 video[nft.name].muted = true
                 video[nft.name].playInline = true
                 video[nft.name].autoPLay = true
@@ -212,7 +213,7 @@ export function Model({ nfts, wrapper }) {
     const nftCard = useRef();
 
     useEffect(() => {
-
+        console.log(nfts)
 
         intervalId = setInterval(() => {
             setCounter((prevCounter) => prevCounter - 1);

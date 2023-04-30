@@ -1,6 +1,42 @@
 import { useEffect, useState, useRef } from 'react'
 import * as qrcode from "qrcode";
+import fs from 'fs';
+// import listReactFiles from 'list-react-files';
+
 import Nft from './Nft.jsx'
+
+const HandMadeList = [
+    'CRYPTO_ANGELS_AI',
+    'CRYPTO_ANGELS_Aliens',
+    'CRYPTO_ANGELS_Beatles',
+    'CRYPTO_ANGELS_Chemtrails',
+    'CRYPTO_ANGELS_Chickens',
+    'CRYPTO_ANGELS_fitnezz',
+    'CRYPTO_ANGELS_HandOfGod',
+    'CRYPTO_ANGELS_Hipnosis',
+    'CRYPTO_ANGELS_ItsGettingHot',
+    'CRYPTO_ANGELS_Jungle',
+    'CRYPTO_ANGELS_LGTB',
+    'CRYPTO_ANGELS_LittleRedHood',
+    'CRYPTO_ANGELS_Meditation',
+    'CRYPTO_ANGELS_Metaverse',
+    'CRYPTO_ANGELS_Miracle',
+    'CRYPTO_ANGELS_MoneyMakers',
+    'CRYPTO_ANGELS_NoahsArk',
+    'CRYPTO_ANGELS_NoWAR',
+    'CRYPTO_ANGELS_PacMan',
+    'CRYPTO_ANGELS_Pandemic',
+    'CRYPTO_ANGELS_Press',
+    'CRYPTO_ANGELS_Pyramid',
+    'CRYPTO_ANGELS_Rave',
+    'CRYPTO_ANGELS_RedSea',
+    'CRYPTO_ANGELS_Smoke',
+    'CRYPTO_ANGELS_Starship',
+    'CRYPTO_ANGELS_Surfers',
+    'CRYPTO_ANGELS_Traffic',
+    'CRYPTO_ANGELS_UnderWater',
+    'CRYPTO_ANGELS_Wood'
+]
 
 export default function Tv() {
     const [nfts] = useState([])
@@ -108,8 +144,23 @@ export default function Tv() {
         }
     }
 
+    const getHandMade = () =>{
+        HandMadeList.map(item=>{
+            nfts.push({
+                name: item,
+                image: `/HandMade/${item}.mp4`,
+                extension: 'mp4',
+                description: null,
+                owner: null
+            })
+        })
+
+
+    }
+
     useEffect(() => {
-        getNfts()
+        // getNfts()
+        getHandMade()
 
         setTimeout(() => {
             if (isNetflixVisible)
