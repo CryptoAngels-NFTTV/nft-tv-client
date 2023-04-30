@@ -49,8 +49,8 @@ export default function Team() {
         <h2 className="team-title-h2">Check out the team behind this project</h2>
         <div className="team-container">
 
-            {team.map(member => 
-                <div className="member">
+            {team.map((member, key) => 
+                <div key={key} className="member">
                     <img className="team-main-img" src={member.image} alt="" />
                     <div className="team-details">
                         <h3 className="team-name">{member.name}</h3>

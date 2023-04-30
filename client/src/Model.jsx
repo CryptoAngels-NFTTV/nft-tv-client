@@ -5,6 +5,8 @@ import * as THREE from 'three'
 import { useThree } from "@react-three/fiber";
 
 import Qrcode from "./Qrcode.jsx";
+import vertexShader from "./shaders/fullScreen/vertex.glsl";
+import fragmentShader from "./shaders/fullScreen/fragment.glsl";
 
 
 function NftImage({ nft }) {
@@ -93,10 +95,9 @@ function CustomTexts({ nft, width, height }) {
             maxWidth={2}
             anchorX="center"
             anchorY="center"
-            textAlign="start"
+            textAlign="center"
             position={[THREE.MathUtils.clamp(width / height * 2, 0.5, 3), 0.75, 0]}
             fontSize={0.1}
-            // outlineWidth={0.005}
             outlineColor={'#DAB8A8'}
             font={'/fonts/ProximaNovaBold.woff'}
         >
@@ -107,7 +108,7 @@ function CustomTexts({ nft, width, height }) {
                 maxWidth={2}
                 anchorX="center"
                 anchorY="center"
-                textAlign="start"
+                textAlign="center"
                 lineHeight="1.5"
                 position={[THREE.MathUtils.clamp(width / height * 2, 0.5, 3), 0.55, 0]}
                 fontSize={0.1}
@@ -125,6 +126,15 @@ function CustomTexts({ nft, width, height }) {
 
 function FullScreen ({width, height, setHovered, wrapper}){
     const [isFullScreen, setIsFullScreen] = useState(false);
+
+    const material = new THREE.ShaderMaterial({
+        side: THREE.DoubleSide,
+        transparent: true,
+        depthWrite: false,
+        
+        vertexShader: vertexShader,
+        fragmentShader: fragmentShader,
+    })
 
     const fullScreen = useTexture('/assets/full-screen.png');
 
@@ -172,9 +182,10 @@ function FullScreen ({width, height, setHovered, wrapper}){
             onPointerOver={handleHover}
             onPointerOut={handleOut}
             onClick={handleClick}
+            material={material}
         >
             <planeGeometry args={[0.5, 0.5]} />
-            <meshBasicMaterial map={fullScreen} />
+            {/* <meshBasicMaterial map={fullScreen} /> */}
 
         </mesh>
     </>

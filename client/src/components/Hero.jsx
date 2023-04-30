@@ -14,7 +14,7 @@ export default function Hero(){
                     <h1>NFTTV - The largest community of playlists</h1>
                     <p>by Dawn.Watch</p>
                     <div>
-                        <button>Register - view to earn</button>
+                        <button>My Playlists</button>
                     </div>
                 </div>
             </div>
