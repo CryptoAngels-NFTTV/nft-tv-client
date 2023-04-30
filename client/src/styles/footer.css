@@ -10,12 +10,23 @@
 
 .footer-white > *{
     flex-basis: 280px;
+    /* flex-basis: 33%; */
 }
 
 .footer-titles{
-    flex-grow: 1;
+    /* flex-grow: 1; */
+    flex-basis: 40%;
     padding: 3em;
-    text-align: center;
+    text-align: left;
+}
+
+.footer-titles > h1{
+    text-transform: none;
+    font-weight: 600;
+    margin: .5em 0;
+}
+.footer-titles > h2{
+    font-weight: 400;
 }
 
 .footer-white button{
@@ -72,4 +83,16 @@
 
 .li-logo img{
     width: 40px;
+}
+
+
+.footer__socials{
+    display: flex;
+    justify-content: space-evenly;
+    max-width: 40%;
+    margin: 0 auto;
+}
+
+.footer__socials--item{
+    width: 50px;
 }

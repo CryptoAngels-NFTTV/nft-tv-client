@@ -2,7 +2,8 @@ import { useTexture, useCursor } from "@react-three/drei"
 import { useState } from "react"
 import * as THREE from 'three'
 
-export default function Qrcode({ qrcodeImage = "/assets/unknown.png", width, height}) {
+// export default function Qrcode({ qrcodeImage = "/assets/unknown.png", width, height}) {
+export default function Qrcode({ qrcodeImage = "/CryptoAngelsQrCode.jpg", width, height}) {
 
     const [hovered, setHovered] = useState()
 
