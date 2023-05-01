@@ -5,37 +5,190 @@ import fs from 'fs';
 
 import Nft from './Nft.jsx'
 
+// const HandMadeList = [
+//     'CRYPTO_ANGELS_AI',
+//     'CRYPTO_ANGELS_Aliens',
+//     'CRYPTO_ANGELS_Beatles',
+//     'CRYPTO_ANGELS_Chemtrails',
+//     'CRYPTO_ANGELS_Chickens',
+//     'CRYPTO_ANGELS_fitnezz',
+//     'CRYPTO_ANGELS_HandOfGod',
+//     'CRYPTO_ANGELS_Hipnosis',
+//     'CRYPTO_ANGELS_ItsGettingHot',
+//     'CRYPTO_ANGELS_Jungle',
+//     'CRYPTO_ANGELS_LGTB',
+//     'CRYPTO_ANGELS_LittleRedHood',
+//     'CRYPTO_ANGELS_Meditation',
+//     'CRYPTO_ANGELS_Metaverse',
+//     'CRYPTO_ANGELS_Miracle',
+//     'CRYPTO_ANGELS_MoneyMakers',
+//     'CRYPTO_ANGELS_NoahsArk',
+//     'CRYPTO_ANGELS_NoWAR',
+//     'CRYPTO_ANGELS_PacMan',
+//     'CRYPTO_ANGELS_Pandemic',
+//     'CRYPTO_ANGELS_Press',
+//     'CRYPTO_ANGELS_Pyramid',
+//     'CRYPTO_ANGELS_Rave',
+//     'CRYPTO_ANGELS_RedSea',
+//     'CRYPTO_ANGELS_Smoke',
+//     'CRYPTO_ANGELS_Starship',
+//     'CRYPTO_ANGELS_Surfers',
+//     'CRYPTO_ANGELS_Traffic',
+//     'CRYPTO_ANGELS_UnderWater',
+//     'CRYPTO_ANGELS_Wood'
+// ]
+
 const HandMadeList = [
-    'CRYPTO_ANGELS_AI',
-    'CRYPTO_ANGELS_Aliens',
-    'CRYPTO_ANGELS_Beatles',
-    'CRYPTO_ANGELS_Chemtrails',
-    'CRYPTO_ANGELS_Chickens',
-    'CRYPTO_ANGELS_fitnezz',
-    'CRYPTO_ANGELS_HandOfGod',
-    'CRYPTO_ANGELS_Hipnosis',
-    'CRYPTO_ANGELS_ItsGettingHot',
-    'CRYPTO_ANGELS_Jungle',
-    'CRYPTO_ANGELS_LGTB',
-    'CRYPTO_ANGELS_LittleRedHood',
-    'CRYPTO_ANGELS_Meditation',
-    'CRYPTO_ANGELS_Metaverse',
-    'CRYPTO_ANGELS_Miracle',
-    'CRYPTO_ANGELS_MoneyMakers',
-    'CRYPTO_ANGELS_NoahsArk',
-    'CRYPTO_ANGELS_NoWAR',
-    'CRYPTO_ANGELS_PacMan',
-    'CRYPTO_ANGELS_Pandemic',
-    'CRYPTO_ANGELS_Press',
-    'CRYPTO_ANGELS_Pyramid',
-    'CRYPTO_ANGELS_Rave',
-    'CRYPTO_ANGELS_RedSea',
-    'CRYPTO_ANGELS_Smoke',
-    'CRYPTO_ANGELS_Starship',
-    'CRYPTO_ANGELS_Surfers',
-    'CRYPTO_ANGELS_Traffic',
-    'CRYPTO_ANGELS_UnderWater',
-    'CRYPTO_ANGELS_Wood'
+    {
+        file: 'CRYPTO_ANGELS_AI',
+        name: 'We are watching',
+        description: 'the new unescapable',
+    },
+    {
+        file: 'CRYPTO_ANGELS_Aliens',
+        name: 'Odyssey',
+        description: 'We come in peace'
+    },
+    {
+        file: 'CRYPTO_ANGELS_Beatles',
+        name: 'Timeless',
+        description: 'Deserves its place in the blockchain'
+    },
+    {
+        file: 'CRYPTO_ANGELS_Chemtrails',
+        name: 'Smog is in the air',
+        description: 'Can\'t breath'
+    },
+    {
+        file: 'CRYPTO_ANGELS_Chickens',
+        name: 'Bio-tweaking',
+        description: 'Now calling for genetic therapy'
+    },
+    {
+        file: 'CRYPTO_ANGELS_fitnezz',
+        name: 'Gym selfies',
+        description: 'No comment'
+    },
+    {
+        file: 'CRYPTO_ANGELS_HandOfGod',
+        name: 'Hand of God',
+        description: 'What is fairplay next to genious?'
+    },
+    {
+        file: 'CRYPTO_ANGELS_Hipnosis',
+        name: 'Hypnosis',
+        description: 'Spiral of life'
+    },
+    {
+        file: 'CRYPTO_ANGELS_ItsGettingHot',
+        name: 'It\'s getting hot in here',
+        description: 'Got some ice ?'
+    },
+    {
+        file: 'CRYPTO_ANGELS_Jungle',
+        name: 'Ayahuasca',
+        description: 'Tucano wisdom. Who is your forest guide ?'
+    },
+    {
+        file: 'CRYPTO_ANGELS_LGTB',
+        name: 'Boundless Love',
+        description: 'Be yourself'
+    },
+    {
+        file: 'CRYPTO_ANGELS_LittleRedHood',
+        name: 'Coin basket',
+        description: 'What\'s in yours ?'
+    },
+    {
+        file: 'CRYPTO_ANGELS_Meditation',
+        name: 'Pump distraction',
+        description: 'Samadhi breach'
+    },
+    {
+        file: 'CRYPTO_ANGELS_Metaverse',
+        name: 'Metaverse',
+        description: 'The Future, apparently'
+    },
+    {
+        file: 'CRYPTO_ANGELS_Miracle',
+        name: 'History re-written',
+        description: 'According to unreliable sources'
+    },
+    {
+        file: 'CRYPTO_ANGELS_MoneyMakers',
+        name: 'Are we good on ink ?',
+        description: 'Two generations of debt are working on that'
+    },
+    {
+        file: 'CRYPTO_ANGELS_NoahsArk',
+        name: 'Crypto Ark',
+        description: 'no Fiat onboard'
+    },
+    {
+        file: 'CRYPTO_ANGELS_NoWAR',
+        name: 'No War',
+        description: 'we need each other more than ever'
+    },
+    {
+        file: 'CRYPTO_ANGELS_PacMan',
+        name: 'Governance to the people',
+        description: 'Strong winds of hopeium'
+    },
+    {
+        file: 'CRYPTO_ANGELS_Pandemic',
+        name: 'Rona times',
+        description: 'new rules'
+    },
+    {
+        file: 'CRYPTO_ANGELS_Press',
+        name: 'Don\'t look down',
+        description: 'Not under our watch'
+    },
+    {
+        file: 'CRYPTO_ANGELS_Pyramid',
+        name: 'Pancho Villa UFO',
+        description: 'Mexican History 101'
+    },
+    {
+        file: 'CRYPTO_ANGELS_Rave',
+        name: 'Party time',
+        description: 'share the love'
+    },
+    {
+        file: 'CRYPTO_ANGELS_RedSea',
+        name: 'Open Seas',
+        description: 'this way folks !'
+    },
+    {
+        file: 'CRYPTO_ANGELS_Smoke',
+        name: 'Buy High Sell High',
+        description: 'Not an investment recomendation !'
+    },
+    {
+        file: 'CRYPTO_ANGELS_Starship',
+        name: 'Cross-chain voage',
+        description: 'Are we human or are we collector ?'
+    },
+    {
+        file: 'CRYPTO_ANGELS_Surfers',
+        name: 'The GOAT',
+        description: 'Always a YoungGun'
+    },
+    {
+        file: 'CRYPTO_ANGELS_Traffic',
+        name: 'name',
+        description: 'description'
+    },
+    {
+        file: 'CRYPTO_ANGELS_UnderWater',
+        name: 'Aquatic life',
+        description: 'Bombs, fish and garbage. Where\'s my phone ?'
+    },
+    {
+        file: 'CRYPTO_ANGELS_Wood',
+        name: 'Wishful thinking',
+        description: 'when UFOs take over'
+    },
 ]
 
 export default function Tv() {
@@ -147,10 +300,10 @@ export default function Tv() {
     const getHandMade = () =>{
         HandMadeList.map(item=>{
             nfts.push({
-                name: item,
-                image: `/HandMade/${item}.mp4`,
+                name: item.name,
+                image: `/HandMade/${item.file}.mp4`,
                 extension: 'mp4',
-                description: null,
+                description: item.description,
                 owner: null
             })
         })
