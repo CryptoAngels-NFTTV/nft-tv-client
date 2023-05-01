@@ -23,6 +23,8 @@ export default function Home(){
         </section>
         
         <Footer />
+
+        <video id="video" muted loop autoplay playsInline style={{ display: "none"}}/>
         
     </>
 }
