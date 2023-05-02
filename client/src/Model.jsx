@@ -42,14 +42,16 @@ function NftImage({ nft }) {
 
                 const file = new File([nft.image], `${nft.name}.${nft.extension}`, { type: `video/${nft.extension}` });
 
-                // video[nft.name] = document.createElement("video");
-                video[nft.name] = document.getElementById("video");
+                video[nft.name] = document.createElement("video");
+                // video[nft.name] = document.getElementById("video");
                 // video[nft.name].src = URL.createObjectURL(file);
                 video[nft.name].src = nft.image;
                 // video[nft.name].muted = true
-                // video[nft.name].playInline = true
-                // video[nft.name].autoPLay = true
-                // video[nft.name].loop = true
+                video[nft.name].playInline = true
+                video[nft.name].autoPLay = true
+                video[nft.name].loop = true
+                video[nft.name].muted = true; // fixes autoplay in chrome
+                video[nft.name].setAttribute('playsinline', 'true'); // fixes autoplay in webkit (ie. mobile safari)
                 video[nft.name].play()
 
                 videoTexture[nft.name] = new THREE.VideoTexture(video[nft.name])

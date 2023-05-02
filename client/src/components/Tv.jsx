@@ -176,8 +176,8 @@ const HandMadeList = [
     },
     {
         file: 'CRYPTO_ANGELS_Traffic',
-        name: 'name',
-        description: 'description'
+        name: 'Traffic',
+        description: 'Everything shall pass'
     },
     {
         file: 'CRYPTO_ANGELS_UnderWater',

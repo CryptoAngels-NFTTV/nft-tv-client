@@ -24,7 +24,7 @@ export default function Home(){
         
         <Footer />
 
-        <video id="video" muted loop autoplay playsInline style={{ display: "none"}}/>
+        <video id="video" loop autoPlay playsInline muted style={{ display: "none"}}/>
         
     </>
 }
